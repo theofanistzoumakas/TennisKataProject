@@ -47,6 +47,27 @@ namespace TennisKata.Tests
 
             var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
 
+            //Assert
+            Assert.Equal("Game not found.", notFoundResult.Value);
+        }
+
+        [Fact]
+        public async Task PlayerScores_ShouldRetuenNotFound_WhenGameDoesNotExist()
+        {
+            // Arrange
+            var options = new DbContextOptionsBuilder<AppDbContext>().UseInMemoryDatabase(databaseName: "PostTestDb")
+                .Options;
+
+            using var context = new AppDbContext(options);
+
+            var controller = new TennisController(context, new TennisService());
+
+            // Act
+            var result = await controller.PlayerScores(1000, "Player1");
+
+            var notFoundResult = Assert.IsType<NotFoundObjectResult>(result);
+
+            // Assert
             Assert.Equal("Game not found.", notFoundResult.Value);
         }
     }

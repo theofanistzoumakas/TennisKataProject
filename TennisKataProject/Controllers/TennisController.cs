@@ -33,5 +33,13 @@ namespace TennisKataProject.Controllers
 
             return game == null ? NotFound("Game not found.") : Ok(game);
         }
+
+        [HttpPost("{gameId}/{player}/score")] 
+        public async Task<IActionResult> PlayerScores(int gameId, string player)
+        {
+            var game = await _context.TennisGames.FindAsync(gameId);
+
+            return Ok(game);
+        }
     }
 }
