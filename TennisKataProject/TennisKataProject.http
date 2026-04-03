@@ -1,0 +1,6 @@
+@TennisKataProject_HostAddress = http://localhost:5113
+
+GET {{TennisKataProject_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
