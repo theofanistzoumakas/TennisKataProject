@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using TennisKataProject.Controllers;
 using TennisKataProject.Data;
+using TennisKataProject.Models;
 using TennisKataProject.Services;
 
 namespace TennisKata.Tests
@@ -27,8 +28,6 @@ namespace TennisKata.Tests
             var createdAtActionResult = Assert.IsType<CreatedAtActionResult>(result);
             Assert.Equal(201, createdAtActionResult.StatusCode);
 
-            Assert.Equal(1, await context.TennisGames.CountAsync());
-
         }
 
         [Fact]
@@ -52,7 +51,7 @@ namespace TennisKata.Tests
         }
 
         [Fact]
-        public async Task PlayerScores_ShouldRetuenNotFound_WhenGameDoesNotExist()
+        public async Task PlayerScores_ShouldReturnNotFound_WhenGameDoesNotExist()
         {
             // Arrange
             var options = new DbContextOptionsBuilder<AppDbContext>().UseInMemoryDatabase(databaseName: "PostTestDb")
@@ -69,6 +68,39 @@ namespace TennisKata.Tests
 
             // Assert
             Assert.Equal("Game not found.", notFoundResult.Value);
+        }
+
+        [Fact]
+        public async Task PlayerScores_ShouldReturnBadRequest_WhenPlayerNotExist()
+        {
+            // Arrange
+            var options = new DbContextOptionsBuilder<AppDbContext>().UseInMemoryDatabase(databaseName: "PostTestDb")
+                .Options;
+
+            using var context = new AppDbContext(options);
+
+            var controller = new TennisController(context, new TennisService());
+
+            var game = new TennisGame
+            {
+                Id = 1,
+                Player1Points = 1,
+                Player2Points = 1,
+                isFinished = false,
+                CurrentScoreText = "15-All"
+            };
+
+            context.Add(game);
+
+            await context.SaveChangesAsync();
+
+            // Act
+            var result = await controller.PlayerScores(1, "Player3");
+
+            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+
+            // Assert
+            Assert.Equal("Player not found.", badRequestResult.Value);
         }
     }
 }

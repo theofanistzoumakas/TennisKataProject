@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Numerics;
 using TennisKataProject.Data;
 using TennisKataProject.Models;
 using TennisKataProject.Services;
@@ -40,6 +41,13 @@ namespace TennisKataProject.Controllers
             var game = await _context.TennisGames.FindAsync(gameId);
 
             if (game == null) return NotFound("Game not found.");
+
+            if (player.Equals("Player1")) game.Player1Points++;
+            else if (player.Equals("Player2")) game.Player2Points++;
+
+            game.CurrentScoreText = _tennisService.CalculateScore(game.Player1Points, game.Player2Points);
+
+            await _context.SaveChangesAsync();
 
             return Ok(game);
         }
