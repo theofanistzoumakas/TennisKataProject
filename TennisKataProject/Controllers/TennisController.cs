@@ -26,8 +26,8 @@ namespace TennisKataProject.Controllers
             return CreatedAtAction(nameof(ShowScore),new { id = newGame.Id }, newGame);
         }
 
-        [HttpGet("{id}/{player}/score")]
-        public async Task<IActionResult> ShowScore(int id, string player)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> ShowScore(int id)
         {
             var game = await _context.TennisGames.FindAsync(id);
 
