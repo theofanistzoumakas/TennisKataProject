@@ -136,5 +136,39 @@ namespace TennisKata.Tests
             Assert.Equal("The game is finished.", badRequestResult.Value);
         }
 
+        [Fact]
+        public async Task PlayerScores_ShouldReturnBadRequest_WhenPlayerWins()
+        {
+            // Arrange
+            var options = new DbContextOptionsBuilder<AppDbContext>().UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+                .Options;
+
+            using var context = new AppDbContext(options);
+
+            var controller = new TennisController(context, new TennisService());
+
+            var game = new TennisGame
+            {
+                Id = 3,
+                Player1Points = 3,
+                Player2Points = 0,
+                isFinished = false,
+                CurrentScoreText = "Player 1 Wins"
+            };
+
+            context.Add(game);
+
+            await context.SaveChangesAsync();
+
+            // Act
+            var result = await controller.PlayerScores(3, "Player2");
+
+            var updatedGame = await context.TennisGames.FindAsync(game.Id);
+
+            // Assert
+            Assert.NotNull(updatedGame);
+            Assert.True(updatedGame.isFinished, "The game should be marked as finished after the win!");
+        }
+
     }
 }
