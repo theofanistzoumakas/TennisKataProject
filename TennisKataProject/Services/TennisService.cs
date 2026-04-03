@@ -5,19 +5,38 @@
         public string CalculateScore(int p1Points, int p2Points)
         {
 
-            if (p1Points == 0 && p2Points == 0) return "Love-All";
-            if (p1Points == 1 && p2Points == 0) return "15-Love";
-            if (p1Points == 0 && p2Points == 2) return "Love-30";
-            if (p1Points == 3 && p2Points == 0) return "40-Love";
-            if (p1Points == 1 && p2Points == 1) return "15-All";
-            if (p1Points == 2 && p2Points == 2) return "30-All";
-            if ((p1Points == 3 && p2Points == 3) || p1Points == 4 && p2Points == 4) return "Deuce";
-            if (p1Points == 4 && p2Points == 3) return "Advantage for Player 1";
-            if (p1Points == 3 && p2Points == 4) return "Advantage for Player 2";
-            if (p1Points == 4 && p2Points == 0) return "Player 1 Wins";
-            if (p1Points == 4 && p2Points == 6) return "Player 2 Wins";
+            if(p1Points>=4 && p1Points-p2Points>=2) return "Player 1 Wins";
 
-            return $"{p1Points}-{p2Points}";
+            if (p2Points >= 4 && p2Points - p1Points >= 2) return "Player 2 Wins";
+
+            if(p1Points >= 3 && p2Points >= 3)
+            {
+                if (p1Points == p2Points) return "Deuce";
+                if (p1Points - p2Points == 1) return "Advantage for Player 1";
+                if (p2Points - p1Points == 1) return "Advantage for Player 2";
+            }
+
+
+            string p1Score = GetScore(p1Points);
+            string p2Score = GetScore(p2Points);
+            
+
+            if (p1Points == p2Points) return $"{p1Score}-All";
+
+            return $"{p1Score}-{p2Score}";
+
+        }
+
+        private string GetScore(int playerPoints)
+        {
+            return playerPoints switch
+            {
+                1 => "15",
+                2 => "30",
+                3 => "40",
+                _ => "Love"
+            };
+            
         }
     }
 }
