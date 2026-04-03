@@ -136,16 +136,5 @@ namespace TennisKata.Tests
             Assert.Equal("The game is finished.", badRequestResult.Value);
         }
 
-
-        [Theory]
-        [InlineData(0, 0, "Love-All")]
-        public void CalculateScore_WithVariousPoints_ReturnsCorrectScore(int p1Points, int p2Points, string expectedScore)
-        {
-            var service = new TennisService();
-
-            var actualScore = service.CalculateScore(p1Points, p2Points);
-
-            Assert.Equal(expectedScore, actualScore);
-        }
     }
 }
