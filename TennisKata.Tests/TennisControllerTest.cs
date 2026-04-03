@@ -137,7 +137,7 @@ namespace TennisKata.Tests
         }
 
         [Fact]
-        public async Task PlayerScores_ShouldReturnBadRequest_WhenPlayerWins()
+        public async Task PlayerScores_ShouldMarkedGameAsFinished_WhenPlayerWins()
         {
             // Arrange
             var options = new DbContextOptionsBuilder<AppDbContext>().UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
@@ -153,7 +153,41 @@ namespace TennisKata.Tests
                 Player1Points = 3,
                 Player2Points = 0,
                 isFinished = false,
-                CurrentScoreText = "Player 1 Wins"
+                CurrentScoreText = "40-Love"
+            };
+
+            context.Add(game);
+
+            await context.SaveChangesAsync();
+
+            // Act
+            var result = await controller.PlayerScores(3, "Player1");
+
+            var updatedGame = await context.TennisGames.FindAsync(game.Id);
+
+            // Assert
+            Assert.NotNull(updatedGame);
+            Assert.True(updatedGame.isFinished, "The game should be marked as finished after the win!");
+        }
+
+        [Fact]
+        public async Task PlayerScores_ShouldMarkedGameAsFinished_WhenPlayerWinsAfterThreePoints()
+        {
+            // Arrange
+            var options = new DbContextOptionsBuilder<AppDbContext>().UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+                .Options;
+
+            using var context = new AppDbContext(options);
+
+            var controller = new TennisController(context, new TennisService());
+
+            var game = new TennisGame
+            {
+                Id = 3,
+                Player1Points = 4,
+                Player2Points = 5,
+                isFinished = false,
+                CurrentScoreText = "Advantage for Player 2"
             };
 
             context.Add(game);
@@ -167,7 +201,7 @@ namespace TennisKata.Tests
 
             // Assert
             Assert.NotNull(updatedGame);
-            Assert.True(updatedGame.isFinished, "The game should be marked as finished after the win!");
+            Assert.True(updatedGame.isFinished);
         }
 
     }
