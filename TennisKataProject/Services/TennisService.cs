@@ -15,6 +15,7 @@
             if (p1Points == 4 && p2Points == 3) return "Advantage for Player 1";
             if (p1Points == 3 && p2Points == 4) return "Advantage for Player 2";
             if (p1Points == 4 && p2Points == 0) return "Player 1 Wins";
+            if (p1Points == 4 && p2Points == 6) return "Player 2 Wins";
 
             return $"{p1Points}-{p2Points}";
         }
