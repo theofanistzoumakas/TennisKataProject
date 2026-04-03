@@ -17,6 +17,8 @@ namespace TennisKata.Tests
         [InlineData(3, 0, "40-Love")]
         [InlineData(1, 1, "15-All")]
         [InlineData(2, 2, "30-All")]
+        [InlineData(3, 3, "Deuce")]
+        [InlineData(4, 4, "Deuce")]
         public void CalculateScore_WithVariousPoints_ReturnsCorrectScore(int p1Points, int p2Points, string expectedScore)
         {
             var service = new TennisService();
