@@ -6,6 +6,8 @@ using TennisKataProject.Services;
 
 namespace TennisKataProject.Controllers
 {
+    [Route("Api/[controller]")]
+    [ApiController]
     public class TennisController : ControllerBase
     {
         private readonly AppDbContext _context;
