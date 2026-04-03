@@ -41,6 +41,7 @@ namespace TennisKataProject.Controllers
             var game = await _context.TennisGames.FindAsync(gameId);
 
             if (game == null) return NotFound("Game not found.");
+            if (game.isFinished) return BadRequest("The game is finished.");
 
             if (player.Equals("Player1")) game.Player1Points++;
             else if (player.Equals("Player2")) game.Player2Points++;
