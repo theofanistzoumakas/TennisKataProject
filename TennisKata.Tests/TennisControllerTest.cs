@@ -14,7 +14,7 @@ namespace TennisKata.Tests
         public async Task Post_ShouldCreateGame_AndReturnCreatedAtAction()
         {
             // Arrange
-            var options = new DbContextOptionsBuilder<AppDbContext>().UseInMemoryDatabase(databaseName: "PostTestDb")
+            var options = new DbContextOptionsBuilder<AppDbContext>().UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                 .Options;
 
             using var context = new AppDbContext(options);
@@ -34,7 +34,7 @@ namespace TennisKata.Tests
         public async Task ShowScore_ShouldRetuenNotFound_WhenGameDoesNotExist()
         {
             // Arrange
-            var options = new DbContextOptionsBuilder<AppDbContext>().UseInMemoryDatabase(databaseName: "PostTestDb")
+            var options = new DbContextOptionsBuilder<AppDbContext>().UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                 .Options;
 
             using var context = new AppDbContext(options);
@@ -54,7 +54,7 @@ namespace TennisKata.Tests
         public async Task PlayerScores_ShouldReturnNotFound_WhenGameDoesNotExist()
         {
             // Arrange
-            var options = new DbContextOptionsBuilder<AppDbContext>().UseInMemoryDatabase(databaseName: "PostTestDb")
+            var options = new DbContextOptionsBuilder<AppDbContext>().UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                 .Options;
 
             using var context = new AppDbContext(options);
@@ -74,7 +74,7 @@ namespace TennisKata.Tests
         public async Task PlayerScores_ShouldReturnBadRequest_WhenPlayerNotExist()
         {
             // Arrange
-            var options = new DbContextOptionsBuilder<AppDbContext>().UseInMemoryDatabase(databaseName: "PostTestDb")
+            var options = new DbContextOptionsBuilder<AppDbContext>().UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                 .Options;
 
             using var context = new AppDbContext(options);
