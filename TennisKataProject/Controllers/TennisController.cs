@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TennisKataProject.Data;
+using TennisKataProject.Models;
 using TennisKataProject.Services;
 
 namespace TennisKataProject.Controllers
@@ -18,7 +19,19 @@ namespace TennisKataProject.Controllers
         [HttpPost]
         public async Task<IActionResult> StartGame()
         {
-            throw new NotImplementedException();
+            var newGame = new TennisGame();
+            _context.TennisGames.Add(newGame);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(ShowScore),new { id = newGame.Id }, newGame);
+        }
+
+        [HttpGet("{id}/{player}/score")]
+        public async Task<IActionResult> ShowScore(int id, string player)
+        {
+            var game = await _context.TennisGames.FindAsync(id);
+
+            return Ok(game);
         }
     }
 }
