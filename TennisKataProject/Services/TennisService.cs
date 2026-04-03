@@ -9,6 +9,7 @@
             if (p1Points == 1 && p2Points == 0) return "15-Love";
             if (p1Points == 0 && p2Points == 2) return "Love-30";
             if (p1Points == 3 && p2Points == 0) return "40-Love";
+            if (p1Points == 1 && p2Points == 1) return "15-All";
 
             return $"{p1Points}-{p2Points}";
         }
