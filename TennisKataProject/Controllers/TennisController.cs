@@ -44,6 +44,7 @@ namespace TennisKataProject.Controllers
 
             if (player.Equals("Player1")) game.Player1Points++;
             else if (player.Equals("Player2")) game.Player2Points++;
+            else return BadRequest("Player not found.");
 
             game.CurrentScoreText = _tennisService.CalculateScore(game.Player1Points, game.Player2Points);
 
