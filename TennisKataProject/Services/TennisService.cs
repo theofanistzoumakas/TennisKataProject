@@ -13,6 +13,7 @@
             if (p1Points == 2 && p2Points == 2) return "30-All";
             if ((p1Points == 3 && p2Points == 3) || p1Points == 4 && p2Points == 4) return "Deuce";
             if (p1Points == 4 && p2Points == 3) return "Advantage for Player 1";
+            if (p1Points == 3 && p2Points == 4) return "Advantage for Player 2";
 
             return $"{p1Points}-{p2Points}";
         }
