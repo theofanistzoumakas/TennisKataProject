@@ -31,7 +31,7 @@ namespace TennisKataProject.Controllers
         {
             var game = await _context.TennisGames.FindAsync(id);
 
-            return Ok(game);
+            return game == null ? NotFound("Game not found.") : Ok(game);
         }
     }
 }
